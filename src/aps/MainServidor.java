@@ -8,8 +8,6 @@ package aps;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *
