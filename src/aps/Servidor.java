@@ -38,9 +38,9 @@ public class Servidor extends Thread {
             System.out.println("comando: "+string);
 
             if (string.equals("listar")) {
-                trataLista(in);
+                enviaLista(in);
             } else {
-                enviaEmail(in);
+                recebeEmail(in);
             }
 
         } catch (IOException | ClassNotFoundException | SQLException ex) {
@@ -54,24 +54,20 @@ public class Servidor extends Thread {
         }
     }
 
-    private ArrayList GeraLista(String usuario) throws ClassNotFoundException, SQLException {
-
-        MensagemDAO msg = new MensagemDAO();
-        ArrayList<Mensagem> lista = msg.listar(usuario);
-        return lista;
-    }
-
-    private void trataLista(ObjectInputStream in) throws IOException, ClassNotFoundException, SQLException {
+    private void enviaLista(ObjectInputStream in) throws IOException, ClassNotFoundException, SQLException {
 
         in = new ObjectInputStream(clientSocket.getInputStream());
         String string = (String) in.readObject();
         System.out.println("usuário: "+string+'\n');
 
+        MensagemDAO msg = new MensagemDAO();
+        ArrayList<Mensagem> lista = msg.listar(string);
+        
         ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-        outObj.writeObject(GeraLista(string));
+        outObj.writeObject(lista);
     }
 
-    private void enviaEmail(ObjectInputStream in) throws IOException, ClassNotFoundException, SQLException {
+    private void recebeEmail(ObjectInputStream in) throws IOException, ClassNotFoundException, SQLException {
         
         String string = (String) in.readObject();
         System.out.println("usuário: "+string+'\n');
