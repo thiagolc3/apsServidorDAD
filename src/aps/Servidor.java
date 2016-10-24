@@ -69,10 +69,9 @@ public class Servidor extends Thread {
 
     private void recebeEmail(ObjectInputStream in) throws IOException, ClassNotFoundException, SQLException {
         
-        String string = (String) in.readObject();
-        System.out.println("usuário: "+string+'\n');
-        
         Mensagem mensagem = (Mensagem) in.readObject();
+        System.out.println("usuário: "+mensagem.getRemetente()+'\n');
+        
         MensagemDAO msgDAO = new MensagemDAO();
         msgDAO.inserir(mensagem);
     }
